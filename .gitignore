@@ -1,0 +1,4 @@
+viikko1/*/src/__pycache__
+viikko1/*/.pytest_cache
+viikko1/nhl-statistics-1/.coverage
+viikko1/nhl-statistics-1/htmlcov
