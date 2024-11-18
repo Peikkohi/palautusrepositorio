@@ -16,5 +16,5 @@ Click Register Link
 *** Keywords ***
 
 Reset Application And Go To Starting Page
-  Reset Application
-  Go To Starting Page
+    Reset Application
+    Go To Starting Page
