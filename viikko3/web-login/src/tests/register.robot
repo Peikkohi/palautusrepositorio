@@ -7,46 +7,71 @@ Test Setup      Reset Application Create User And Go To Register Page
 *** Test Cases ***
 
 Register With Valid Username And Password
-    Input Text  username  jaakko
-    Input Password  password  jaakko123
-    Input Password  password_confirmation  jaakko123
+    Set Username  jaakko
+    Set Password  jaakko123
+    Set Confirmation Password  jaakko123
     Submit Credentials
     Register Should Succeed
 
 Register With Too Short Username And Valid Password
-    Input Text  username  p
-    Input Password  password  pertti123
-    Input Password  password_confirmation  pertti123
+    Set Username  p
+    Set Password  pertti123
+    Set Confirmation Password  pertti123
     Submit Credentials
     Register Should Fail With Message  Username is too short
 
 Register With Valid Username And Too Short Password
-    Input Text  username  elisa
-    Input Password  password  e
-    Input Password  password_confirmation  e
+    Set Username  elisa
+    Set Password  e
+    Set Confirmation Password  e
     Submit Credentials
     Register Should Fail With Message  Password is too short
 
 Register With Valid Username And Invalid Password
-    Input Text  username  eeva
-    Input Password  password  eevaeeva
-    Input Password  password_confirmation  eevaeeva
+    Set Username  eeva
+    Set Password  eevaeeva
+    Set Confirmation Password  eevaeeva
     Submit Credentials
     Register Should Fail With Message  Password shouldn't only contain a-z
 
 Register With Nonmatching Password And Password Confirmation
-    Input Text  username  jaakko
-    Input Password  password  jaakko123
-    Input Password  password_confirmation  jaakko234
+    Set Username  jaakko
+    Set Password  jaakko123
+    Set Confirmation Password  jaakko234
     Submit Credentials
     Register Should Fail With Message  Passwords don't match
 
 Register With Username That Is Already In Use
-    Input Text  username  kalle
-    Input Password  password  kalle123
-    Input Password  password_confirmation  kalle123
+    Set Username  kalle
+    Set Password  kalle123
+    Set Confirmation Password  kalle123
     Submit Credentials
     Register Should Fail With Message  Username already taken
+
+Login After Successful Registration
+    Set Username  jaakko
+    Set Password  jaakko123
+    Set Confirmation Password  jaakko123
+    Submit Credentials
+    Go To Login Page
+    Set Username  jaakko
+    Set Password  jaakko123
+    Click Button  Login
+    Main Page Should Be Open
+
+Login After Failed Registration
+    Set Username  jaakko
+    Set Password  jaakko123
+    Set Confirmation Password  jaakko234
+    Submit Credentials
+    Register Should Fail With Message  Passwords don't match
+    Go To Login Page
+    Set Username  jaakko
+    Set Password  jaakko123
+    Click Button  Login
+    Login Page Should Be Open
+    Page Should Contain  Invalid username or password
+# ...
 
 *** Keywords ***
 Register Should Succeed
@@ -59,6 +84,18 @@ Register Should Fail With Message
 
 Submit Credentials
     Click Button  Register
+
+Set Username
+    [Arguments]  ${username}
+    Input Text  username  ${username}
+
+Set Password
+    [Arguments]  ${password}
+    Input Password  password  ${password}
+
+Set Confirmation Password
+    [Arguments]  ${password}
+    Input Password  password_confirmation  ${password}
 
 Reset Application Create User And Go To Register Page
     Reset Application
