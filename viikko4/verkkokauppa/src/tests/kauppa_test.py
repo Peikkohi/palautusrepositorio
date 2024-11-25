@@ -102,3 +102,14 @@ class TestKauppa(unittest.TestCase):
 
         self.pankki_mock \
                 .tilisiirto.assert_called_with(ANY, 2, ANY, ANY, ANY)
+
+    def test_poistettu_tuote_ei_ole_summassa(self):
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.lisaa_koriin(2)
+        self.kauppa.poista_korista(1)
+        self.kauppa.tilimaksu("kuutamo", "11111")
+
+        self.pankki_mock \
+                .tilisiirto.assert_called_with("kuutamo", ANY, "11111", ANY, 3)
+
