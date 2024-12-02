@@ -14,6 +14,13 @@ class Kayttoliittyma:
         self._sovelluslogiikka = sovelluslogiikka
         self._root = root
 
+        self._komennot = {
+            Komento.SUMMA: lambda arvo: sovelluslogiikka.plus(arvo),
+            Komento.EROTUS: lambda arvo: sovelluslogiikka.miinus(arvo),
+            Komento.NOLLAUS: lambda _: sovelluslogiikka.nollaa(),
+            Komento.KUMOA: lambda _: sovelluslogiikka.kumoa(),
+        }
+
     def kaynnista(self):
         self._arvo_var = StringVar()
         self._arvo_var.set(self._sovelluslogiikka.arvo())
@@ -62,14 +69,7 @@ class Kayttoliittyma:
         except Exception:
             pass
 
-        if komento == Komento.SUMMA:
-            self._sovelluslogiikka.plus(arvo)
-        elif komento == Komento.EROTUS:
-            self._sovelluslogiikka.miinus(arvo)
-        elif komento == Komento.NOLLAUS:
-            self._sovelluslogiikka.nollaa()
-        elif komento == Komento.KUMOA:
-            pass
+        self._komennot[komento](arvo)
 
         self._kumoa_painike["state"] = constants.NORMAL
 
