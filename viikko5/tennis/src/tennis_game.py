@@ -1,55 +1,45 @@
-class TennisGame:
-    def __init__(self, player1_name, player2_name):
-        self.player1_name = player1_name
-        self.player2_name = player2_name
-        self.m_score1 = 0
-        self.m_score2 = 0
+from enum import Enum
 
-    def won_point(self, player_name):
-        if player_name == "player1":
-            self.m_score1 = self.m_score1 + 1
-        else:
-            self.m_score2 = self.m_score2 + 1
+# pylint: disable=invalid-name
+class Score(Enum):
+    Love, Fifteen, Thirty, Forty = range(4)
+
+class TennisGame:
+    OVERTIME = 4
+
+    def __init__(self, player1, player2):
+        self.home_player = player1
+        self.away_player = player2
+        self.scores = {}
+        self.scores[player1] = 0
+        self.scores[player2] = 0
+
+    def won_point(self, player):
+        self.scores[player] += 1
 
     def get_score(self):
-        score = ""
-        temp_score = 0
+        home_score = self.scores[self.home_player]
+        away_score = self.scores[self.away_player]
 
-        if self.m_score1 == self.m_score2:
-            if self.m_score1 == 0:
-                score = "Love-All"
-            elif self.m_score1 == 1:
-                score = "Fifteen-All"
-            elif self.m_score1 == 2:
-                score = "Thirty-All"
-            else:
-                score = "Deuce"
-        elif self.m_score1 >= 4 or self.m_score2 >= 4:
-            minus_result = self.m_score1 - self. m_score2
+        if home_score == away_score:
+            return (
+                    "Deuce"
+                    if home_score >= Score.Forty.value else
+                    f"{Score(home_score).name}-All"
+                    )
 
-            if minus_result == 1:
-                score = "Advantage player1"
-            elif minus_result == -1:
-                score = "Advantage player2"
-            elif minus_result >= 2:
-                score = "Win for player1"
-            else:
-                score = "Win for player2"
-        else:
-            for i in range(1, 3):
-                if i == 1:
-                    temp_score = self.m_score1
-                else:
-                    score = score + "-"
-                    temp_score = self.m_score2
+        if home_score >= self.OVERTIME or away_score >= self.OVERTIME:
+            score_difference = abs(home_score - away_score)
+            difference_status = (
+                    "Advantage"
+                    if score_difference == 1 else 
+                    "Win for"
+                    )
+            ahead = (
+                    self.home_player
+                    if home_score > away_score else
+                    self.away_player
+                    )
+            return f"{difference_status} {ahead}"
 
-                if temp_score == 0:
-                    score = score + "Love"
-                elif temp_score == 1:
-                    score = score + "Fifteen"
-                elif temp_score == 2:
-                    score = score + "Thirty"
-                elif temp_score == 3:
-                    score = score + "Forty"
-
-        return score
+        return f"{Score(home_score).name}-{Score(away_score).name}"
