@@ -69,9 +69,12 @@ class Kayttoliittyma:
         except Exception:
             pass
 
-        self._komennot[komento](arvo)
+        kumotakko = self._komennot[komento](arvo)
 
-        self._kumoa_painike["state"] = constants.NORMAL
+        if kumotakko:
+            self._kumoa_painike["state"] = constants.NORMAL
+        else:
+            self._kumoa_painike["state"] = constants.DISABLED
 
         if self._sovelluslogiikka.arvo() == 0:
             self._nollaus_painike["state"] = constants.DISABLED
