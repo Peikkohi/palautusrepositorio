@@ -1,3 +1,25 @@
+class All:
+    def test(self, _player):
+        return True
+
+class Not:
+    def __init__(self, pred):
+        self.pred = pred
+
+    def test(self, player):
+        return not self.pred.test(player)
+
+class HasFewerThan:
+    def __init__(self, value, attr):
+        self.matcher = Not(HasAtLeast(value, attr))
+
+    def test(self, player):
+        return self.matcher.test(player)
+
+# class HasFewerThan(HasAtLeast):
+#     def test(self, player):
+#         return not super().test(player)
+
 class And:
     def __init__(self, *matchers):
         self._matchers = matchers
