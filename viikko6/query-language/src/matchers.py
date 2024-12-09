@@ -20,6 +20,13 @@ class HasFewerThan:
 #     def test(self, player):
 #         return not super().test(player)
 
+class Or:
+    def __init__(self, *predicates):
+        self.predicates = predicates
+
+    def test(self, player):
+        return any(predicate.test(player) for predicate in self.predicates)
+
 class And:
     def __init__(self, *matchers):
         self._matchers = matchers
