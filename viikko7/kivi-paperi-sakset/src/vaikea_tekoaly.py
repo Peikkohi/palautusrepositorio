@@ -1,5 +1,5 @@
 # "Muistava tekoäly"
-class TekoalyParannettu:
+class VaikeaTekoaly:
     def __init__(self, muistin_koko):
         self._muisti = [None] * muistin_koko
         self._vapaamuistinraja = 0

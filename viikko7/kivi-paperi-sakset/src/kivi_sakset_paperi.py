@@ -9,24 +9,24 @@ class KiviSaksetPaperi:
         tuomari = Tuomari()
 
         while True:
-            aloitus_siirto = self._aloitus_siirto()
-            lopetus_siirto = self._lopetus_siirto(aloitus_siirto)
+            eka_siirto = self._eka_siirto()
+            toka_siirto = self._toka_siirto(eka_siirto)
 
             if not (
-                self._kelpaako_siirto(aloitus_siirto) and
-                self._kelpaako_siirto(lopetus_siirto)
+                self._kelpaako_siirto(eka_siirto) and
+                self._kelpaako_siirto(toka_siirto)
             ):
                 break
 
-            tuomari.kirjaa_siirto(aloitus_siirto, lopetus_siirto)
+            tuomari.kirjaa_siirto(eka_siirto, toka_siirto)
         
         print("Kiitos!")
         print(tuomari)
 
-    def _aloitus_siirto(self):
+    def _eka_siirto(self):
         return input("Ensimmäinen pelaajan siirto: ")
 
-    def _lopetus_siirto(self, aloitus_siirto):
+    def _toka_siirto(self, eka_siirto):
         raise Exception("Tämä metodi korvataan aliluokassa")
 
     def _kelpaako_siirto(self, siirto):

@@ -1,4 +1,4 @@
-class Tekoaly:
+class HelppoTekoaly:
     def __init__(self):
         self._mones_siirto = 0
 
@@ -8,5 +8,4 @@ class Tekoaly:
         return "kps"[self._mones_siirto]
 
     def aseta_siirto(self, siirto):
-        # ei tehdä mitään
         pass
