@@ -1,17 +1,11 @@
 class Tekoaly:
     def __init__(self):
-        self._siirto = 0
+        self._mones_siirto = 0
 
     def anna_siirto(self):
-        self._siirto = self._siirto + 1
-        self._siirto = self._siirto % 3
+        self._mones_siirto = (self._mones_siirto + 1) % 3
 
-        if self._siirto == 0:
-            return "k"
-        elif self._siirto == 1:
-            return "p"
-        else:
-            return "s"
+        return "kps"[self._mones_siirto]
 
     def aseta_siirto(self, siirto):
         # ei tehdä mitään
